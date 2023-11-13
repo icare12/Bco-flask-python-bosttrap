@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco ikar jesus - Detalles del Cliente</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Banco ikar jesus - Detalles del Cliente</h1>
+        <div class="card mx-auto mt-4" style="max-width: 400px;">
+            <div class="card-body">
+                <form action="/" method="post" onsubmit="showStatusAlert(); return false;">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" name="nombre" value="{{ cliente.nombre }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" class="form-control" name="apellido" value="{{ cliente.apellido }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_cuenta">Número de Cuenta:</label>
+                        <input type="text" class="form-control" name="numero_cuenta" value="{{ cliente.numero_cuenta }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="balance">Balance:</label>
+                        <input type="number" class="form-control" name="balance" value="{{ cliente.balance }}" id="balance" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="monto">Monto a depositar/retirar:</label>
+                        <input type="number" class="form-control" name="monto" required>
+                    </div>
+                    <button type="button" class="btn btn-success" name="action" value="depositar" onclick="depositar()">Depositar</button>
+                    <button type="button" class="btn btn-danger" name="action" value="retirar" onclick="retirar()">Retirar</button>
+                </form>
+            </div>
+        </div>
+        <h6 class="text-center mt-3">Gracias por operar en Banco ikar jesus</h6>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <div id="statusAlert" class="fixed-bottom mb-4 mr-4"></div>
+    <div id="alert" style="display: none; position: fixed; width: 300px; height: 200px; background: white; border: 1px solid black; padding: 10px; z-index: 1000;">
+        <p id="alertMessage"></p>
+        <button onclick="closeAlert()">Close</button>
+    </div>
+    <script>
+        function depositar() {
+            var monto = parseFloat(document.querySelector('input[name="monto"]').value);
+            var saldo = parseFloat(document.querySelector('input[name="balance"]').value);
+
+            saldo += monto;
+            document.querySelector('input[name="balance"]').value = saldo;
+            showAlert('Su saldo ha sido depositado correctamente. Nuevo saldo: $' + saldo, 'green');
+            alert('Dinero depositado correctamente. Nuevo saldo: $' + saldo); // Add an alert here
+        }
+
+        function retirar() {
+            var monto = parseFloat(document.querySelector('input[name="monto"]').value);
+            var saldo = parseFloat(document.querySelector('input[name="balance"]').value);
+
+            if (monto > saldo) {
+                showAlert('Advertencia: Fondos insuficientes para retirar $' + monto, 'red');
+                alert('Advertencia: Fondos insuficientes para retirar $' + monto); // Add an alert here
+            } else {
+                saldo -= monto;
+                document.querySelector('input[name="balance"]').value = saldo;
+                showAlert('Su saldo ha sido retirado correctamente. Nuevo saldo: $' + saldo, 'orange');
+                alert('Dinero retirado correctamente. Nuevo saldo: $' + saldo); // Add an alert here
+            }
+        }
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
